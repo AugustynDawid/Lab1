@@ -1,7 +1,7 @@
 ﻿using System;
 
 /// <summary>
-/// Summary description for Class1
+/// Fraction class for CSharp Lab01
 /// </summary>
 public class Fraction : IEquatable<Fraction>, IComparable
 {
@@ -18,6 +18,16 @@ public class Fraction : IEquatable<Fraction>, IComparable
 	{
 		this.numerator = numerator;
 		this.denominator = denominator;
+
+		if(this.denominator < 0)
+        {
+			this.numerator *= -1;
+			this.denominator *= -1;
+        }
+
+		int g = Math.Abs(Gcd(this.numerator, this.denominator));
+		this.numerator /= g;
+		this.denominator /= g;
 	}
 
 	public Fraction(Fraction f)
@@ -33,13 +43,21 @@ public class Fraction : IEquatable<Fraction>, IComparable
 
     public int CompareTo(object obj)
     {
-        throw new NotImplementedException();
+		Fraction other = obj as Fraction;
+
+		int g = Gcd(denominator, other.denominator);
+
+		int n1 = numerator * other.denominator / g;
+		int n2 = denominator * other.denominator / g;
+
+		return n1.CompareTo(n2);
     }
 
-    public bool Equals(Fraction other)
+    public bool Equals(Fraction obj)
     {
-        throw new NotImplementedException();
-    }
+		Fraction other = obj as Fraction;
+		return (numerator == other.numerator && denominator == other.denominator);
+	}
 
 
     public static Fraction operator +(Fraction a, Fraction b)
@@ -73,4 +91,31 @@ public class Fraction : IEquatable<Fraction>, IComparable
 		Fraction result = new Fraction(x, y);
 		return result;
 	}
+
+	/// <summary>
+	/// Greatest common divisor of two numbers
+	/// Euclidean algorithm
+	/// </summary>
+	/// <param name="a"></param>
+	/// <param name="b"></param>
+	/// <returns></returns>
+	private static int Gcd(int a, int b)
+    {
+		if (b == 0)
+        {
+			return a;
+        }
+		return Gcd(b, a % b);
+    }
+
+	/// <summary>
+	/// Least common multiply
+	/// </summary>
+	/// <param name="a"></param>
+	/// <param name="b"></param>
+	/// <returns></returns>
+	private static int Lcm(int a, int b)
+    {
+		return a * b / Gcd(a, b);
+    }
 }
