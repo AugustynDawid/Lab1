@@ -48,7 +48,7 @@ public class Fraction : IEquatable<Fraction>, IComparable
 		int g = Gcd(denominator, other.denominator);
 
 		int n1 = numerator * other.denominator / g;
-		int n2 = denominator * other.denominator / g;
+		int n2 = denominator * other.numerator / g;
 
 		return n1.CompareTo(n2);
     }
